@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Put, Delete } from "@nestjs/common";
 
 import { ProductService } from "./products.service";
 
@@ -62,5 +62,22 @@ export class ProdutctController {
         }
 
         return newProduct;
+    }
+
+    @Delete(':id')
+    async deleteProduct(@Param('id') id: string) {
+        const findProduct = await this.productService.findById(+id)
+
+        if (!findProduct) {
+            return { error: 'product not found' }
+        }
+
+        const newProducts = await this.productService.delete(+id)
+
+        if (!newProducts) {
+            return { error: 'product is not deleted' }
+        }
+
+        return newProducts;
     }
 }

@@ -41,4 +41,16 @@ export class ProductService {
             return resolve(findProduct)
         })
     }
+
+    delete(id: number): Promise<ProductInterface[]> {
+        return new Promise((resolve) => {
+            const index = this.products.findIndex(pdt => pdt.id === id)
+
+            if (index === -1) {
+                return { error: 'product not found' }
+            }
+
+            return resolve(this.products.splice(index, 1))
+        })
+    }
 }
